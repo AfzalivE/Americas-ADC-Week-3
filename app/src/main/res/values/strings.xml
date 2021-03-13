@@ -25,4 +25,5 @@
     <string name="stocks">Stocks</string>
     <string name="funds">Funds</string>
     <string name="extra">Extra</string>
+    <string name="positions">Positions</string>
 </resources>

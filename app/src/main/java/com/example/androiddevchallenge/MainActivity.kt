@@ -17,27 +17,29 @@ package com.example.androiddevchallenge
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.rememberScrollableState
-import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.requiredWidth
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.ButtonDefaults.outlinedBorder
@@ -47,8 +49,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
-import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
@@ -68,15 +68,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.core.view.WindowCompat
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
 import com.example.androiddevchallenge.ui.theme.Icons
 import com.example.androiddevchallenge.ui.theme.MyTheme
 import com.example.androiddevchallenge.ui.theme.green
-import com.example.androiddevchallenge.ui.theme.white
-import com.example.androiddevchallenge.ui.theme.yellow
+import com.example.androiddevchallenge.ui.theme.red
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 import dev.chrisbanes.accompanist.insets.statusBarsPadding
@@ -131,6 +127,27 @@ fun MyApp() {
     }
 }
 
+data class Position(
+    val value: String,
+    val gain: Float,
+    val symbol: String,
+    val name: String,
+    @DrawableRes val graph: Int,
+)
+
+val positions = arrayListOf(
+    Position("$7,918", -0.54f, "ALK", "Alaska Air Group Inc.", R.drawable.ic_home_alk),
+    Position("$1,293", 4.18f, "BA", "Boeing Co.", R.drawable.ic_home_ba),
+    Position("$893.50", -0.54f, "DAL", "Delta Airlines Inc.", R.drawable.ic_home_dal),
+    Position("$12,301", 2.51f, "EXPE", "Expedia Group Inc.", R.drawable.ic_home_exp),
+    Position("$12,301", 1.38f, "EADSY", "Airbus SE", R.drawable.ic_home_eadsy),
+    Position("$8,521", 1.56f, "JBLU", "Jetblue Airways Corp.", R.drawable.ic_home_jblu),
+    Position("$521", 2.75f, "MAR", "Marriot International Inc.", R.drawable.ic_home_mar),
+    Position("$5,481", 0.14f, "CCL", "Carnical Corp", R.drawable.ic_home_ccl),
+    Position("$9,184", 1.69f, "RCL", "Royal Caribbean Cruises", R.drawable.ic_home_rcl),
+    Position("$654", 3.23f, "TRVL", "Travelocity Inc.", R.drawable.ic_home_trvl),
+)
+
 @Composable
 fun HomeScreen() {
     val tabTitles = arrayListOf(stringResource(R.string.account),
@@ -146,8 +163,10 @@ fun HomeScreen() {
     )
 
     Column(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -236,6 +255,77 @@ fun HomeScreen() {
                 .padding(bottom = 32.dp, start = 16.dp, end = 16.dp),
             contentScale = ContentScale.FillWidth
         )
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colors.surface),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = stringResource(id = R.string.positions),
+                modifier = Modifier.paddingFromBaseline(top = 40.dp, bottom = 24.dp),
+                style = MaterialTheme.typography.subtitle1.copy(color = MaterialTheme.colors.onSurface)
+            )
+
+            // LazyColumn() {
+            //     items(positions) {
+            Column(
+                modifier = Modifier.padding(horizontal = 16.dp)
+            ) {
+                positions.forEach {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .requiredHeight(56.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .requiredWidth(64.dp)
+                        ) {
+                            Text(
+                                it.value,
+                                style = MaterialTheme.typography.body1.copy(color = MaterialTheme.colors.onSurface),
+                                modifier = Modifier.paddingFromBaseline(top = 24.dp)
+                            )
+                            val gainColor = if (it.gain > 0) green else red
+                            Text(
+                                "${it.gain}%",
+                                style = MaterialTheme.typography.body1.copy(color = gainColor),
+                                modifier = Modifier.paddingFromBaseline(top = 16.dp, bottom = 16.dp)
+                            )
+                        }
+
+                        Column() {
+                            Text(
+                                it.symbol,
+                                style = MaterialTheme.typography.h3.copy(color = MaterialTheme.colors.onSurface),
+                                modifier = Modifier.paddingFromBaseline(top = 24.dp)
+                            )
+                            Text(
+                                it.name,
+                                style = MaterialTheme.typography.body1.copy(color = MaterialTheme.colors.onSurface),
+                                modifier = Modifier.paddingFromBaseline(top = 16.dp, bottom = 16.dp)
+                            )
+                        }
+
+                        Column(
+                            modifier = Modifier
+                                .align(Alignment.CenterVertically)
+                                .weight(1f),
+                            horizontalAlignment = Alignment.End
+                        ) {
+                            Image(
+                                painter = painterResource(id = it.graph),
+                                contentDescription = "Graph for ${it.name}",
+                            )
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
