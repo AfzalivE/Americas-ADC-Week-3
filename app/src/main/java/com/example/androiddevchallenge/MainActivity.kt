@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -36,7 +35,6 @@ import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.requiredWidth
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -54,8 +52,10 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -67,8 +67,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -114,7 +112,8 @@ fun MyApp() {
         ) {
             val navController = rememberNavController()
 
-            NavHost(navController = navController,
+            NavHost(
+                navController = navController,
                 startDestination = Route.Welcome
             ) {
                 composable(Route.Welcome) {
@@ -154,9 +153,11 @@ val positions = arrayListOf(
 
 @Composable
 fun HomeScreen() {
-    val tabTitles = arrayListOf(stringResource(R.string.account),
+    val tabTitles = arrayListOf(
+        stringResource(R.string.account),
         stringResource(R.string.watchlist),
-        stringResource(R.string.profile))
+        stringResource(R.string.profile)
+    )
     val selectedTabIndex by remember { mutableStateOf(0) }
     val graphTitles = arrayListOf(
         stringResource(R.string.week),
@@ -180,11 +181,13 @@ fun HomeScreen() {
             tabTitles.forEachIndexed { i, tabTitle ->
                 TextButton(
                     onClick = {},
-                    colors = ButtonDefaults.textButtonColors(contentColor = if (i == selectedTabIndex) {
-                        MaterialTheme.colors.onBackground
-                    } else {
-                        MaterialTheme.colors.onBackground.copy(alpha = 0.5f)
-                    })
+                    colors = ButtonDefaults.textButtonColors(
+                        contentColor = if (i == selectedTabIndex) {
+                            MaterialTheme.colors.onBackground
+                        } else {
+                            MaterialTheme.colors.onBackground.copy(alpha = 0.5f)
+                        }
+                    )
                 ) {
                     Text(
                         modifier = Modifier.paddingFromBaseline(top = 64.dp, bottom = 8.dp),
