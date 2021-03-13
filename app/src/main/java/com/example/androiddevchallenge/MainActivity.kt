@@ -373,7 +373,10 @@ fun LoginScreen(onLoginClick: () -> Unit = {}) {
                 .fillMaxWidth()
                 .padding(top = 40.dp, start = 16.dp, end = 16.dp, bottom = 8.dp),
             label = {
-                Text(text = stringResource(R.string.email_address))
+                Text(
+                    text = stringResource(R.string.email_address),
+                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.5f)
+                )
             },
             leadingIcon = {
                 Icon(
@@ -390,7 +393,10 @@ fun LoginScreen(onLoginClick: () -> Unit = {}) {
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
             label = {
-                Text(text = stringResource(R.string.password))
+                Text(
+                    text = stringResource(R.string.password),
+                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.5f)
+                )
             },
             leadingIcon = {
                 Icon(
