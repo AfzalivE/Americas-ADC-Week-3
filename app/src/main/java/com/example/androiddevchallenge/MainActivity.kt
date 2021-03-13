@@ -218,6 +218,7 @@ fun HomeScreen() {
         Button(
             onClick = {},
             shape = MaterialTheme.shapes.large,
+            elevation = ButtonDefaults.elevation(0.dp),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
@@ -409,6 +410,7 @@ fun LoginScreen(onLoginClick: () -> Unit = {}) {
         Button(
             onClick = onLoginClick,
             shape = MaterialTheme.shapes.large,
+            elevation = ButtonDefaults.elevation(0.dp),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
@@ -426,7 +428,7 @@ fun WelcomeScreen(onLoginClick: () -> Unit = {}) {
             modifier = Modifier.fillMaxSize(),
             painter = painterResource(id = R.drawable.welcome_bg),
             contentDescription = null,
-            contentScale = ContentScale.FillWidth
+            contentScale = ContentScale.FillBounds
         )
         Spacer(modifier = Modifier.statusBarsPadding())
         Image(
@@ -443,6 +445,7 @@ fun WelcomeScreen(onLoginClick: () -> Unit = {}) {
             Button(
                 onClick = {},
                 shape = MaterialTheme.shapes.large,
+                elevation = ButtonDefaults.elevation(0.dp),
                 modifier = Modifier
                     .requiredHeight(48.dp)
                     .weight(1f)
