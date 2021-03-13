@@ -20,9 +20,13 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,7 +35,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.ButtonDefaults.outlinedBorder
 import androidx.compose.material.ButtonDefaults.outlinedButtonColors
 import androidx.compose.material.Icon
@@ -39,7 +47,10 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRow
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -63,6 +74,8 @@ import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
 import com.example.androiddevchallenge.ui.theme.Icons
 import com.example.androiddevchallenge.ui.theme.MyTheme
+import com.example.androiddevchallenge.ui.theme.green
+import com.example.androiddevchallenge.ui.theme.white
 import com.example.androiddevchallenge.ui.theme.yellow
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import dev.chrisbanes.accompanist.insets.navigationBarsPadding
@@ -100,27 +113,130 @@ fun MyApp() {
         ) {
             val navController = rememberNavController()
 
-            // LoginScreen()
-            NavHost(navController = navController,
-                startDestination = Route.Welcome
-            ) {
-                composable(Route.Welcome) {
-                    WelcomeScreen(onLoginClick = { navController.navigate(Route.Login) })
-                }
-                composable(Route.Login) {
-                    LoginScreen(onLoginClick = { navController.navigate(Route.Home) })
-                }
-                composable(Route.Home) {
-                    HomeScreen()
-                }
-            }
+            HomeScreen()
+            // NavHost(navController = navController,
+            //     startDestination = Route.Welcome
+            // ) {
+            //     composable(Route.Welcome) {
+            //         WelcomeScreen(onLoginClick = { navController.navigate(Route.Login) })
+            //     }
+            //     composable(Route.Login) {
+            //         LoginScreen(onLoginClick = { navController.navigate(Route.Home) })
+            //     }
+            //     composable(Route.Home) {
+            //         HomeScreen()
+            //     }
+            // }
         }
     }
 }
 
 @Composable
 fun HomeScreen() {
+    val tabTitles = arrayListOf(stringResource(R.string.account),
+        stringResource(R.string.watchlist),
+        stringResource(R.string.profile))
+    val selectedTabIndex by remember { mutableStateOf(0) }
+    val graphTitles = arrayListOf(
+        stringResource(R.string.week),
+        stringResource(R.string.etfs),
+        stringResource(R.string.stocks),
+        stringResource(R.string.funds),
+        stringResource(R.string.extra)
+    )
 
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            tabTitles.forEachIndexed { i, tabTitle ->
+                TextButton(
+                    onClick = {},
+                    colors = ButtonDefaults.textButtonColors(contentColor = if (i == selectedTabIndex) {
+                        MaterialTheme.colors.onBackground
+                    } else {
+                        MaterialTheme.colors.onBackground.copy(alpha = 0.5f)
+                    })
+                ) {
+                    Text(
+                        modifier = Modifier.paddingFromBaseline(top = 64.dp, bottom = 8.dp),
+                        text = tabTitle.toUpperCase(Locale.getDefault())
+                    )
+                }
+            }
+        }
+
+        Text(
+            stringResource(id = R.string.balance),
+            modifier = Modifier.paddingFromBaseline(top = 32.dp, bottom = 8.dp),
+            style = MaterialTheme.typography.subtitle1
+        )
+
+        Text(
+            "$73,589.01",
+            modifier = Modifier.paddingFromBaseline(top = 48.dp, bottom = 24.dp),
+            style = MaterialTheme.typography.h1
+        )
+
+        Text(
+            "+412.35 today",
+            modifier = Modifier.paddingFromBaseline(top = 16.dp, bottom = 32.dp),
+            style = MaterialTheme.typography.subtitle1.copy(color = green)
+        )
+
+        Button(
+            onClick = {},
+            shape = MaterialTheme.shapes.large,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .requiredHeight(48.dp)
+        ) {
+            Text(text = stringResource(R.string.transact).toUpperCase(Locale.getDefault()))
+        }
+
+        LazyRow(
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(graphTitles) {
+                OutlinedButton(
+                    onClick = {},
+                    shape = MaterialTheme.shapes.medium,
+                    modifier = Modifier.requiredHeight(40.dp),
+                    colors = outlinedButtonColors(
+                        backgroundColor = Color.Transparent,
+                        contentColor = MaterialTheme.colors.onBackground
+                    ),
+                    border = outlinedBorder.copy(
+                        brush = SolidColor(MaterialTheme.colors.onBackground)
+                    ),
+                ) {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.body1,
+                    )
+
+                    if (it == graphTitles[0]) {
+                        Icon(imageVector = Icons.expandMore, contentDescription = "Expand")
+                    }
+                }
+            }
+        }
+
+        Image(
+            painter = painterResource(id = R.drawable.ic_home_illos),
+            contentDescription = "Graph",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 32.dp, start = 16.dp, end = 16.dp),
+            contentScale = ContentScale.FillWidth
+        )
+    }
 }
 
 @Composable
@@ -230,7 +346,7 @@ fun WelcomeScreen(onLoginClick: () -> Unit = {}) {
             OutlinedButton(
                 onClick = onLoginClick,
                 colors = outlinedButtonColors(backgroundColor = Color.Transparent),
-                border = outlinedBorder.copy(brush = SolidColor(yellow)),
+                border = outlinedBorder.copy(brush = SolidColor(MaterialTheme.colors.primary)),
                 shape = MaterialTheme.shapes.large,
                 modifier = Modifier
                     .requiredHeight(48.dp)

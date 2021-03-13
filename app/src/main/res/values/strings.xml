@@ -15,4 +15,14 @@
     <string name="welcome_back">Welcome\nback</string>
     <string name="email_address">Email address</string>
     <string name="password">Password</string>
+    <string name="account">Account</string>
+    <string name="watchlist">Watchlist</string>
+    <string name="profile">Profile</string>
+    <string name="balance">Balance</string>
+    <string name="transact">Transact</string>
+    <string name="week">Week</string>
+    <string name="etfs">ETFs</string>
+    <string name="stocks">Stocks</string>
+    <string name="funds">Funds</string>
+    <string name="extra">Extra</string>
 </resources>
