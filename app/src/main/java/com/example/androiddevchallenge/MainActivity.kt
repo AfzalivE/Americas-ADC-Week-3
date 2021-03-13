@@ -70,6 +70,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.core.view.WindowCompat
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
 import com.example.androiddevchallenge.ui.theme.Icons
 import com.example.androiddevchallenge.ui.theme.MyTheme
@@ -111,20 +114,19 @@ fun MyApp() {
         ) {
             val navController = rememberNavController()
 
-            HomeScreen()
-            // NavHost(navController = navController,
-            //     startDestination = Route.Welcome
-            // ) {
-            //     composable(Route.Welcome) {
-            //         WelcomeScreen(onLoginClick = { navController.navigate(Route.Login) })
-            //     }
-            //     composable(Route.Login) {
-            //         LoginScreen(onLoginClick = { navController.navigate(Route.Home) })
-            //     }
-            //     composable(Route.Home) {
-            //         HomeScreen()
-            //     }
-            // }
+            NavHost(navController = navController,
+                startDestination = Route.Welcome
+            ) {
+                composable(Route.Welcome) {
+                    WelcomeScreen(onLoginClick = { navController.navigate(Route.Login) })
+                }
+                composable(Route.Login) {
+                    LoginScreen(onLoginClick = { navController.navigate(Route.Home) })
+                }
+                composable(Route.Home) {
+                    HomeScreen()
+                }
+            }
         }
     }
 }
