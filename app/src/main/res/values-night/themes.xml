@@ -14,20 +14,11 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/yellow</item>
         <item name="colorOnPrimary">@color/gray900</item>
-        <item name="android:colorBackground">@color/purple</item>
+        <item name="android:colorBackground">@color/gray900</item>
 
         <!-- Status bar color. -->
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <!-- Customize your theme here. -->
     </style>
-
-    <style name="Theme.AndroidDevChallenge.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="Theme.AndroidDevChallenge.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="Theme.AndroidDevChallenge.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

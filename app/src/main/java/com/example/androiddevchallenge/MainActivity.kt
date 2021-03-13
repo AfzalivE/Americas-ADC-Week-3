@@ -21,6 +21,7 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -44,6 +45,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.ButtonDefaults.outlinedBorder
 import androidx.compose.material.ButtonDefaults.outlinedButtonColors
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
@@ -165,7 +167,8 @@ fun HomeScreen() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .verticalScroll(rememberScrollState()),
+            .verticalScroll(rememberScrollState())
+            .navigationBarsPadding(bottom = true),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Row(
@@ -271,9 +274,12 @@ fun HomeScreen() {
             // LazyColumn() {
             //     items(positions) {
             Column(
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .padding(bottom = 16.dp)
             ) {
                 positions.forEach {
+                    Divider()
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -298,7 +304,7 @@ fun HomeScreen() {
                             )
                         }
 
-                        Column() {
+                        Column {
                             Text(
                                 it.symbol,
                                 style = MaterialTheme.typography.h3.copy(color = MaterialTheme.colors.onSurface),
