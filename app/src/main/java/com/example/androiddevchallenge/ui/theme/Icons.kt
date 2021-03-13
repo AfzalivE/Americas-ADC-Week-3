@@ -5,6 +5,8 @@ import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.Password
 import androidx.compose.material.icons.outlined.MailOutline
 
-val mailOutline = Icons.Outlined.MailOutline
-val password = Icons.Filled.Password
-val expandMore = Icons.Filled.ExpandMore
+object Icons {
+    val mailOutline = Icons.Outlined.MailOutline
+    val password = Icons.Filled.Password
+    val expandMore = Icons.Filled.ExpandMore
+}
